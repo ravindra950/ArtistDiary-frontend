@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import API_URL from '../config/api';
 function Home() {
   const [artists, setArtists] = useState([]);
   const [form, setForm] = useState({ name: '', genre: '', description: '' });
   const [editingId, setEditingId] = useState(null);
 
   const fetchArtists = async () => {
-    const res = await axios.get('http://localhost:5000/artists');
+    const res = await axios.get(`${API_URL}/artists`);
     setArtists(res.data);
   };
 
@@ -22,9 +22,9 @@ function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      await axios.put(`http://localhost:5000/artists/${editingId}`, form);
+      await axios.put(`${API_URL}/artists/${editingId}`, form);
     } else {
-      await axios.post('http://localhost:5000/artists', form);
+      await axios.post(`${API_URL}/artists`, form);
     }
     setForm({ name: '', genre: '', description: '' });
     setEditingId(null);
@@ -37,7 +37,7 @@ function Home() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/artists/${id}`);
+    await axios.delete(`${API_URL}/artists/${id}`);
     fetchArtists();
   };
 
